@@ -1,4 +1,4 @@
-# i4g Workflow
+# i4g Copilot
 
 Copilot intelligence, developer routines, and coding standards for the I4G Platform.
 
@@ -15,14 +15,14 @@ Add this repo to your `i4g.code-workspace` and all prompts + instructions become
 
 ## Quick Start
 
-1. **Add to workspace.** Add `workflow/` as a folder in `i4g.code-workspace`
+1. **Add to workspace.** Add `copilot/` as a folder in `i4g.code-workspace`
 2. **Use routines.** In Copilot chat, click the prompt picker and select any routine
 3. **Follow standards.** Standards auto-load when you edit matching file types — no action needed
 
 ## Repo Structure
 
 ```
-workflow/
+copilot/
 ├── README.md                    # This file
 ├── .github/
 │   ├── copilot-instructions.md  # Shared platform context (loaded in every conversation)

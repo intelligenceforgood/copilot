@@ -22,6 +22,6 @@ Capture something learned during this session so future sessions benefit from it
    - Why it matters or what goes wrong without it (one line)
    - Example if helpful (code snippet or command)
 
-4. **Check for promotion.** If the same category now has 3+ similar lessons, suggest promoting the pattern to a `.instructions.md` file in `workflow/.github/standards/` so Copilot applies it automatically for matching files.
+4. **Check for promotion.** If the same category now has 3+ similar lessons, suggest promoting the pattern to a `.instructions.md` file in `copilot/.github/standards/` so Copilot applies it automatically for matching files.
 
 5. **Confirm.** Tell the user what was recorded and where.

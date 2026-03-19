@@ -11,7 +11,7 @@ Execute the complete pre-merge review for all repos with changes.
 
 1. **Identify changed repos.** Run `git status -sb` in each workspace root to find which repos have uncommitted or staged changes.
 
-2. **Read the full checklist.** Load and follow the shared pre-merge checklist at `workflow/.github/shared/pre-merge-checklist.instructions.md`.
+2. **Read the full checklist.** Load and follow the shared pre-merge checklist at `copilot/.github/shared/pre-merge-checklist.instructions.md`.
 
 3. **Code audit.** Review all changed files against coding standards:
    - Type hints on every function (parameters + return)

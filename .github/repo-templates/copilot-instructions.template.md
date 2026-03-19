@@ -4,7 +4,7 @@
 <!-- Replace all <PLACEHOLDER> values with repo-specific details -->
 <!-- Delete these comments after filling in -->
 
-**Unified Workspace Context:** This repository is part of the `i4g` multi-root workspace. Shared coding standards, routines, and platform context live in the `workflow/` repo. These instructions contain only repo-specific context.
+**Unified Workspace Context:** This repository is part of the `i4g` multi-root workspace. Shared coding standards, routines, and platform context live in the `copilot/` repo. These instructions contain only repo-specific context.
 
 ## Environment
 

@@ -1,11 +1,11 @@
 # Customization Guide
 
-How to extend the workflow system with new routines, standards, and instructions.
+How to extend this system with new routines, standards, and instructions.
 
 ## Architecture
 
 ```
-workflow/.github/
+copilot/.github/
 ├── copilot-instructions.md      # Always loaded — repo description
 ├── prompts/                     # Routines (invoked from chat picker)
 │   └── *.prompt.md
@@ -26,7 +26,7 @@ In a multi-root workspace:
 
 ## Adding a New Routine
 
-1. Create `workflow/.github/prompts/<name>.prompt.md`
+1. Create `copilot/.github/prompts/<name>.prompt.md`
 2. Add YAML frontmatter:
    ```yaml
    ---
@@ -39,7 +39,7 @@ In a multi-root workspace:
    - **What to check** before acting
    - **What to report** after each step
 4. Update `docs/routine-catalog.md` with the new routine
-5. Commit to the workflow repo
+5. Commit to the `copilot` repo
 
 ### Good vs. Bad Routines
 
@@ -59,7 +59,7 @@ Commands belong in docs or READMEs, not in routines.
 
 ## Adding a New Standard
 
-1. Create `workflow/.github/standards/<name>.instructions.md`
+1. Create `copilot/.github/standards/<name>.instructions.md`
 2. Add YAML frontmatter with the file glob:
    ```yaml
    ---
@@ -86,7 +86,7 @@ applyTo: "**/*.sql,**/alembic/versions/*.py"
 
 These are longer documents that other instructions cross-reference. They don't auto-load — they're pulled in when a routine or standard mentions them.
 
-1. Create `workflow/.github/shared/<name>.instructions.md`
+1. Create `copilot/.github/shared/<name>.instructions.md`
 2. No `applyTo` needed
 3. Write comprehensive reference content
 4. Cross-reference from routines or standards
@@ -125,11 +125,11 @@ Each product repo keeps only repo-specific context in `.github/copilot-instructi
 - Architecture unique to that repo
 - Repo-specific pre-commit procedure
 
-Everything shared lives here in the workflow repo. When updating shared standards:
+Everything shared lives here in the `copilot` repo. When updating shared standards:
 
 1. Edit here, not in product repos
 2. Product repos should cross-reference, not duplicate
 
 ### Template for New Repos
 
-See `workflow/.github/repo-templates/copilot-instructions.template.md` for the template to use when adding a new repo to the workspace.
+See `copilot/.github/repo-templates/copilot-instructions.template.md` for the template to use when adding a new repo to the workspace.

@@ -15,13 +15,13 @@ The i4g workspace is multi-root — it has several repos open simultaneously:
 | `docs/`         | Markdown         | Project documentation                |
 | `planning/`     | Markdown         | Roadmap, PRDs, task tracking         |
 | `mobile/`       | Swift/Kotlin     | Mobile app + design tokens           |
-| **`workflow/`** | Markdown         | **This repo — Copilot intelligence** |
+| **`copilot/`** | Markdown         | **This repo — Copilot intelligence** |
 
 ### First-Time Setup
 
 1. Open the `i4g.code-workspace` file in VS Code
 2. Ensure GitHub Copilot extension is installed and signed in
-3. Verify `workflow/` appears as a folder in the Explorer sidebar
+3. Verify `copilot/` appears as a folder in the Explorer sidebar
 4. That's it — all routines and standards are loaded automatically
 
 ## Daily Workflow
@@ -131,8 +131,8 @@ Override via environment variables: `I4G_LLM__PROVIDER=mock` (double underscore 
 ## Getting Help
 
 - **Copilot Chat:** Ask anything about the codebase — it has full context
-- **Architecture:** Read `workflow/.github/shared/architecture-cheatsheet.instructions.md`
-- **Coding standards:** Read `workflow/.github/shared/general-coding.instructions.md`
+- **Architecture:** Read `copilot/.github/shared/architecture-cheatsheet.instructions.md`
+- **Coding standards:** Read `copilot/.github/shared/general-coding.instructions.md`
 - **This guide:** You're reading it
 - **Routine catalog:** See [routine-catalog.md](routine-catalog.md) for detailed descriptions
 
