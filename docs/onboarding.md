@@ -6,15 +6,15 @@ Welcome to the I4G Platform. This guide explains how to use GitHub Copilot effec
 
 The i4g workspace is multi-root — it has several repos open simultaneously:
 
-| Repo            | Language         | Purpose                              |
-| --------------- | ---------------- | ------------------------------------ |
-| `core/`         | Python           | API, workers, business logic         |
-| `ui/`           | TypeScript/React | Analyst console (Next.js)            |
-| `ssi/`          | Python           | Scam-site investigation agent        |
-| `infra/`        | Terraform        | Cloud infrastructure                 |
-| `docs/`         | Markdown         | Project documentation                |
-| `planning/`     | Markdown         | Roadmap, PRDs, task tracking         |
-| `mobile/`       | Swift/Kotlin     | Mobile app + design tokens           |
+| Repo           | Language         | Purpose                              |
+| -------------- | ---------------- | ------------------------------------ |
+| `core/`        | Python           | API, workers, business logic         |
+| `ui/`          | TypeScript/React | Analyst console (Next.js)            |
+| `ssi/`         | Python           | Scam-site investigation agent        |
+| `infra/`       | Terraform        | Cloud infrastructure                 |
+| `docs/`        | Markdown         | Project documentation                |
+| `planning/`    | Markdown         | Roadmap, PRDs, task tracking         |
+| `mobile/`      | Swift/Kotlin     | Mobile app + design tokens           |
 | **`copilot/`** | Markdown         | **This repo — Copilot intelligence** |
 
 ### First-Time Setup
