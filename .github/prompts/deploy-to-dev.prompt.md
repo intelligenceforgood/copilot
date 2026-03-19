@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: agent
 description: "Pre-deployment checklist — smoke test, build, deploy to i4g-dev"
 ---
 
@@ -12,6 +12,7 @@ Pre-flight checklist before deploying to the `i4g-dev` environment.
 1. **Pre-merge review first.** Ensure the pre-merge review routine has been completed. If not, run it first.
 
 2. **Local smoke test.** Verify the code works locally before any cloud operation:
+
    ```
    conda run -n i4g I4G_PROJECT_ROOT=$PWD I4G_ENV=dev I4G_LLM__PROVIDER=mock i4g jobs ingest --help
    ```
@@ -23,12 +24,15 @@ Pre-flight checklist before deploying to the `i4g-dev` environment.
    - SSI changes → check ssi docker configs
 
 4. **Database migrations.** If Alembic migrations were added:
+
    ```
    i4g db migrate dev
    ```
+
    ⚠️ Run on dev first. Never migrate prod without a successful dev migration.
 
 5. **Build and push images.** From the appropriate repo root:
+
    ```
    scripts/build_image.sh <image-name> dev
    ```

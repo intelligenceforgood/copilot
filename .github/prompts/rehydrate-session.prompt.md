@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: agent
 description: "Start your day — check status, load context, identify what to work on"
 ---
 

@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: agent
 description: "Post-deployment verification — check endpoints, test key flows"
 ---
 

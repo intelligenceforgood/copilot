@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: agent
 description: "End of sprint — update plans, log changes, assess merge readiness"
 ---
 

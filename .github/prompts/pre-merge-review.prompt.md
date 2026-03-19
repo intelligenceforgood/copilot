@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: agent
 description: "Full quality checklist before merging — code audit, tests, hooks"
 ---
 
@@ -23,20 +23,24 @@ Execute the complete pre-merge review for all repos with changes.
 4. **Run quality gates** for each changed repo:
 
    **Python repos (core/, ssi/):**
+
    ```
    cd <repo-root>
    conda run -n <env> pre-commit run --all-files   # Pass 1 — auto-fixes
    git add -u                                      # Stage fixes
    conda run -n <env> pre-commit run --all-files   # Pass 2 — must be clean
    ```
+
    Conda envs: `i4g` for core, `i4g-ssi` for ssi.
 
    **UI repo:**
+
    ```
    cd ui/ && make check && make build
    ```
 
    **Infra repo:**
+
    ```
    cd infra/ && terraform fmt -check -recursive
    ```

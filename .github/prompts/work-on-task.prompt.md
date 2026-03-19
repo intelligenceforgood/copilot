@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: agent
 description: "Implement a specific task — code, test, document"
 ---
 
@@ -28,6 +28,7 @@ Execute a single implementation task with proper testing and documentation.
    - Note in `planning/change_log.md`
 
 5. **Validate locally.** Run pre-commit hooks to catch formatting issues early:
+
    ```
    conda run -n i4g pre-commit run --files <changed-files>
    ```

@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: agent
 description: "Diagnose and fix a bug — reproduce, root-cause, fix, regression test"
 ---
 

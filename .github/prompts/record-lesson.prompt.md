@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: agent
 description: "Save a lesson, pattern, or pitfall to repo memory for future sessions"
 ---
 

@@ -1,5 +1,5 @@
 ---
-mode: agent
+agent: agent
 description: "Break a feature or task into actionable steps and start working"
 ---
 
