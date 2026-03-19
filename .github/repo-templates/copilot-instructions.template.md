@@ -40,6 +40,10 @@ git add -u
 conda run -n <CONDA_ENV_NAME> pre-commit run --all-files   # Pass 2 — must be clean
 ```
 
+## Coding Standards
+
+Follow `copilot/.github/shared/general-coding.instructions.md` for all shared language standards.
+
 ## Repo-Specific Notes
 
 <!-- Add anything unique to this repo that doesn't belong in shared standards -->

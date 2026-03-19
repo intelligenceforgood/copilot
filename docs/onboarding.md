@@ -37,10 +37,13 @@ Start Session → Plan Work → Implement → Review → Deploy → Verify
 
 ### How to Use Routines
 
-1. Open Copilot Chat (Cmd+Shift+I or the chat icon)
-2. In the chat input, click the **prompt picker** (attachment icon or type `#`)
-3. Select a prompt from the list — they appear with descriptions
-4. The prompt gives Copilot step-by-step instructions for that workflow
+1. Open Copilot Chat with **Cmd+Shift+I** (or click the Copilot chat icon in the sidebar)
+2. In the chat input box, click the **`+` (attachment) icon** on the left side of the input
+3. Select **"Prompt..."** from the menu that appears
+4. A file picker opens — type the routine name (e.g., `rehydrate`) to filter and select it
+5. The routine is inserted into the chat — hit Enter to run it
+
+**Tip:** You can also type `/` in the chat input to trigger VS Code's built-in command suggestions, which includes prompt files. Or attach a prompt file by typing `#` followed by the filename.
 
 ### Available Routines
 
@@ -131,10 +134,11 @@ Override via environment variables: `I4G_LLM__PROVIDER=mock` (double underscore 
 ## Getting Help
 
 - **Copilot Chat:** Ask anything about the codebase — it has full context
+- **Entry point:** Read [README.md](README.md) for a full map of the system
 - **Architecture:** Read `copilot/.github/shared/architecture-cheatsheet.instructions.md`
 - **Coding standards:** Read `copilot/.github/shared/general-coding.instructions.md`
-- **This guide:** You're reading it
 - **Routine catalog:** See [routine-catalog.md](routine-catalog.md) for detailed descriptions
+- **Examples:** See [cookbook.md](cookbook.md) for real-world interaction examples
 
 ## Tips for Working with Copilot
 

@@ -19,7 +19,7 @@ Kick off a new working session by gathering context.
 
 5. **Repo memory.** Read `/memories/repo/` files to recall lessons learned and workflow patterns from prior sessions.
 
-6. **Architecture context.** Skim `core/.github/architecture-cheatsheet.instructions.md` for the system overview.
+6. **Architecture context.** Skim `copilot/.github/shared/architecture-cheatsheet.instructions.md` for the system overview.
 
 7. **Status report.** Present:
    - Current branch per repo

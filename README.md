@@ -1,4 +1,4 @@
-# i4g Copilot
+# Copilot Workflow
 
 Copilot intelligence, developer routines, and coding standards for the I4G Platform.
 
@@ -16,8 +16,9 @@ Add this repo to your `i4g.code-workspace` and all prompts + instructions become
 ## Quick Start
 
 1. **Add to workspace.** Add `copilot/` as a folder in `i4g.code-workspace`
-2. **Use routines.** In Copilot chat, click the prompt picker and select any routine
-3. **Follow standards.** Standards auto-load when you edit matching file types — no action needed
+2. **Read the entry point.** Open [docs/README.md](docs/README.md) — it explains the full system and where everything lives
+3. **Use routines.** In Copilot chat, click the `+` icon → "Prompt..." → select any routine
+4. **Follow standards.** Standards auto-load when you edit matching file types — no action needed
 
 ## Repo Structure
 
@@ -48,9 +49,12 @@ copilot/
 │   └── repo-templates/          # Templates for new repos joining the workspace
 │       └── copilot-instructions.template.md
 └── docs/
+    ├── README.md                # **Entry point** — start here to understand the full system
     ├── onboarding.md            # New developer guide
+    ├── routine-catalog.md       # Full catalog of available routines
+    ├── cookbook.md              # Real-world workflow examples and interaction patterns
     ├── customization-guide.md   # How to extend this system
-    └── routine-catalog.md       # Full catalog of available routines
+    └── cross-platform.md        # Using this system with Claude Code instead of VS Code
 ```
 
 ## How It Works

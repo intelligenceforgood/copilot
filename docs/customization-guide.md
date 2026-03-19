@@ -30,7 +30,7 @@ In a multi-root workspace:
 2. Add YAML frontmatter:
    ```yaml
    ---
-   mode: agent
+   agent: agent
    description: "One-line description shown in the prompt picker"
    ---
    ```

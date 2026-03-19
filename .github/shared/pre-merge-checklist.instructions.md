@@ -7,7 +7,7 @@ a quick skim.
 
 ---
 
-## 1. Coding Standards (ref: `core/.github/general-coding.instructions.md`)
+## 1. Coding Standards (ref: `copilot/.github/shared/general-coding.instructions.md`)
 
 ### Type Hints
 
