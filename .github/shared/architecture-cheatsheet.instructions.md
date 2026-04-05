@@ -160,8 +160,8 @@ SSI writes investigation results directly to the shared database via `ScanStore.
 
 ```
 create_case_record(scan_id, result, dataset)
-  ├── INSERT cases            (case record + dedup via content hash)
-  ├── INSERT scam_records     (dashboard join)
+  ├── INSERT cases            (case record + description + dedup via content hash)
+  ├── INSERT scam_records     (search cache — no classification_result/tags)
   ├── INSERT review_queue     (analyst queue entry)
   ├── _insert_timeline_events()   (review_actions rows)
   ├── _insert_evidence_documents() (source_documents rows)
@@ -252,6 +252,6 @@ site_scans ──1:N──▶ harvested_wallets
 
 7. **Evidence storage abstraction** — `EvidenceStorage` abstracts local FS vs GCS. In local mode it uses `data/evidence/`. In cloud it uses GCS buckets with signed URLs. Never hardcode file paths — use the `EvidenceStorage` interface.
 
-8. **Case ≠ Review (and "cases" in the UI)** — `case_id` and `review_id` are different. `review_queue.review_id` references `scam_records` (legacy RAG pipeline). `cases.case_id` is the modern entity. Both exist in parallel. Timeline events (`review_actions`) are keyed by `review_id`, not `case_id`. The `get_extended_case()` method joins them. Additionally: the UI calls them **cases**; the API routes use `/reviews/` — this is an intentional alias. Don't rename one without the other.
+8. **Case ≠ Review (and “cases” in the UI)** — `case_id` and `review_id` are different. `review_queue` now has a FK to `cases.case_id`. `cases` is the authoritative entity holding classification, description, metadata, and tags. `scam_records` is a write-through search cache only. `get_extended_case()` joins `review_queue` → `cases` (not `scam_records`). Timeline events (`review_actions`) are keyed by `review_id`, not `case_id`. The UI calls them **cases**; the API routes use `/reviews/` — this is an intentional alias. Don't rename one without the other.
 
 9. **TIFAP is NOT a separate service** — The Threat Intelligence & Fraud Analytics Platform reads from core's database via SQLAlchemy directly — no HTTP hop, no separate service, no dedicated Cloud Run service. There is no `/tifap/` API prefix. Campaign intelligence, entity stats, and analytics are served by existing core routers: `/intelligence/`, `/impact/`, `/campaigns/`, and `/exports/`. Do NOT create a TIFAP service or add a proxy route for it — the data access is intentionally in-process for performance.

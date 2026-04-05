@@ -124,6 +124,17 @@ Complete reference for all available Copilot routines. Each routine is a prompt 
 - Compares results with expectations
 - Signs off or recommends escalation
 
+### check-log
+
+**When:** A Cloud Run job or service fails and you have the log filter from GCP Console.
+**What it does:**
+
+- Takes a pasted GCP logging filter query
+- Fetches logs via `gcloud logging read`
+- Identifies the root error from stack traces
+- Reads the relevant source code
+- Proposes (and optionally implements) a fix
+
 ---
 
 ## Adding New Routines

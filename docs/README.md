@@ -51,7 +51,7 @@ The system is designed around three principles:
 | Path                              | What it contains                                                            |
 | --------------------------------- | --------------------------------------------------------------------------- |
 | `.github/copilot-instructions.md` | Workspace-level instructions loaded in every Copilot conversation           |
-| `.github/prompts/`                | 9 routine prompt files — invokable from the chat prompt picker              |
+| `.github/prompts/`                | 10 routine prompt files — invokable from the chat prompt picker             |
 | `.github/standards/`              | 4 auto-loaded standards files (Python, TypeScript/React, Terraform, config) |
 | `.github/shared/`                 | 3 shared reference docs (architecture, general coding, pre-merge checklist) |
 | `.github/repo-templates/`         | Template for creating a new repo's `copilot-instructions.md`                |
@@ -72,19 +72,20 @@ Everything else (shared standards, routines, platform architecture) lives in `co
 
 ## Available Routines
 
-All 9 routines are described in [routine-catalog.md](routine-catalog.md). Quick reference:
+All 10 routines are described in [routine-catalog.md](routine-catalog.md). Quick reference:
 
-| Routine               | When                           |
-| --------------------- | ------------------------------ |
-| `rehydrate-session`   | Start of every session         |
-| `plan-work`           | Before starting a feature/task |
-| `work-on-task`        | Implementing code              |
-| `fix-bug`             | Diagnosing a bug               |
-| `pre-merge-review`    | Before merging                 |
-| `deploy-to-dev`       | Deploying to dev environment   |
-| `manual-verification` | After deploying                |
-| `sprint-wrapup`       | End of sprint                  |
-| `record-lesson`       | Saving a new lesson            |
+| Routine               | When                                  |
+| --------------------- | ------------------------------------- |
+| `rehydrate-session`   | Start of every session                |
+| `plan-work`           | Before starting a feature/task        |
+| `work-on-task`        | Implementing code                     |
+| `fix-bug`             | Diagnosing a bug                      |
+| `check-log`           | Diagnosing a failed Cloud Run job/svc |
+| `pre-merge-review`    | Before merging                        |
+| `deploy-to-dev`       | Deploying to dev environment          |
+| `manual-verification` | After deploying                       |
+| `sprint-wrapup`       | End of sprint                         |
+| `record-lesson`       | Saving a new lesson                   |
 
 **How to invoke:** Open Copilot Chat → click the **`+` (attachment) icon** in the chat input → select **"Prompt..."** → pick the routine name.
 
@@ -131,7 +132,7 @@ System is now smarter for everyone — repeat
 | ------------------------------------------------ | ------------------------------------------------------------------- |
 | [README.md](README.md)                           | This file — start here                                              |
 | [onboarding.md](onboarding.md)                   | New developer guide — workspace setup, daily workflow, key commands |
-| [routine-catalog.md](routine-catalog.md)         | Full description of all 9 routines                                  |
+| [routine-catalog.md](routine-catalog.md)         | Full description of all 10 routines                                 |
 | [cookbook.md](cookbook.md)                       | Example interactions — sprint lifecycle, debugging, doc work        |
 | [customization-guide.md](customization-guide.md) | How to extend the system — add routines, standards, shared docs     |
 | [cross-platform.md](cross-platform.md)           | Using these workflows with Claude Code instead of VS Code Copilot   |
