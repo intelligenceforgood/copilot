@@ -1,56 +1,52 @@
 ---
 agent: agent
-description: "Pre-commit merge gate — clean working tree, no temp files, no secrets, then commit and push"
+description: "Full review + merge — runs pre-merge-review then commits and pushes all changed repos to main"
 ---
 
 # Merge
 
-Verify the working tree is merge-ready, then commit and push all changed repos.
+Run the full pre-merge review, then commit and push all changed repos to `main`.
+This is the single combined routine — no need to run `/pre-merge-review` separately.
 
-## Steps
+## Phase 1 — Pre-Merge Review
 
-1. **Identify changed repos.** Run `git status -sb` in each workspace root. Only process repos with uncommitted or staged changes.
+Execute every step of the pre-merge review routine (`copilot/.github/prompts/pre-merge-review.prompt.md`):
+code audit, quality gates, tests, docs/config check. Fix all issues found before proceeding.
 
-2. **Clean working tree check.** For each changed repo, confirm:
-   - `git status` shows only intentional changes (no untracked mystery files)
-   - No merge conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`) in any changed file
-   - No `TODO(merge)` or `FIXME(merge)` comments left behind
+Do NOT proceed to Phase 2 if any quality gate fails or tests have failures.
 
-3. **Temp file / debug artifact check.** Scan all changed/new files for:
-   - Temporary files: `*.tmp`, `*.bak`, `*.swp`, `*.orig`, `__pycache__/`, `.DS_Store`
-   - Debug scripts: standalone `test_*.py` files outside `tests/`, `debug_*.py`, `scratch_*.py`
-   - Jupyter checkpoints: `.ipynb_checkpoints/`
-   - Build artifacts: `dist/`, `build/`, `*.egg-info/`
-   - If any found, alert the user and do NOT proceed until resolved
+## Phase 2 — Clean Working Tree
 
-4. **Secrets / credentials check.** Scan all staged content (`git diff --cached`) for:
-   - API keys, tokens, passwords (patterns: `sk-`, `ghp_`, `gho_`, `AIza`, `AKIA`, `password\s*=`, `secret\s*=`, `token\s*=`)
-   - `.env` files, `.env.local` (should be in `.gitignore`)
-   - Private keys (`BEGIN RSA PRIVATE KEY`, `BEGIN EC PRIVATE KEY`, `BEGIN OPENSSH PRIVATE KEY`)
-   - Hard-coded GCP service account JSON key files
-   - Local paths specific to one developer's machine (e.g., `/Users/<name>/`)
-   - If any found, alert the user and do NOT proceed until resolved
+After the review passes, verify the working tree is merge-ready:
 
-5. **Verify quality gates passed.** Confirm (by checking recent terminal output or re-running):
-   - Pre-commit hooks pass (for Python repos)
-   - `terraform fmt -check -recursive` passes (for infra)
-   - Tests pass with zero failures
-   - If not verified, suggest running `/pre-merge-review` first
+1. **No stray files.** `git status` in each changed repo shows only intentional changes.
+   - No merge conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
+   - No temp files (`*.tmp`, `*.bak`, `*.swp`, `.DS_Store`, `__pycache__/`)
+   - No debug scripts outside `tests/` (`debug_*.py`, `scratch_*.py`)
+   - If any found, alert the user and do NOT proceed
 
-6. **Stage and commit.** For each changed repo:
-   ```bash
-   cd <repo-root>
-   git add -A
-   git status                    # show what will be committed — ask user to confirm
-   git commit -m "<message>"     # use a descriptive conventional commit message
-   ```
-   - Use conventional commit format: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`
-   - Ask user to confirm the commit message before committing
+2. **No secrets.** Scan staged content for:
+   - API keys / tokens (`sk-`, `ghp_`, `AIza`, `AKIA`)
+   - Private keys (`BEGIN RSA PRIVATE KEY`, etc.)
+   - `.env` files that should be gitignored
+   - Hard-coded local paths (`/Users/<name>/`)
+   - If any found, alert the user and do NOT proceed
 
-7. **Push.** For each committed repo:
-   ```bash
-   git push origin main
-   ```
-   - If push fails (e.g., diverged), alert the user — do NOT force push
+## Phase 3 — Commit and Push
 
-8. **Summary.** Report per-repo: files committed, commit hash, push status.
+For each changed repo:
+
+```bash
+cd <repo-root>
+git add -A
+git commit -m "<conventional commit message>"
+git push origin main
+```
+
+- Use conventional commit format: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`
+- Generate descriptive commit messages from the changes — do NOT ask the user to confirm
+- If push fails (e.g., diverged), alert the user — do NOT force push
+
+## Phase 4 — Summary
+
+Report per-repo: issues found + fixed, test results, files committed, commit hash, push status.

@@ -90,7 +90,7 @@ Complete reference for all available Copilot routines. Each routine is a prompt 
 
 ### pre-merge-review
 
-**When:** Before merging any branch.
+**When:** You want to review changes without committing.
 **What it does:**
 
 - Identifies all repos with changes
@@ -99,6 +99,20 @@ Complete reference for all available Copilot routines. Each routine is a prompt 
 - Runs unit tests
 - Verifies docs/config are updated
 - Produces a summary with issues and fixes
+- Does NOT commit or push — use `/merge` for the full workflow
+
+### merge
+
+**When:** You're ready to review, commit, and push all changed repos.
+**What it does:**
+
+- Runs the full pre-merge review (same as `/pre-merge-review`)
+- Checks for stray files, secrets, and debug artifacts
+- Commits all changed repos with conventional commit messages
+- Pushes to `origin/main`
+- Produces a combined summary (review findings + commit/push status)
+
+This is the standard end-of-task routine. No need to run `/pre-merge-review` separately.
 
 ### deploy-to-dev
 
