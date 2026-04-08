@@ -34,6 +34,8 @@ After the review passes, verify the working tree is merge-ready:
 
 ## Phase 3 — Commit and Push
 
+Follow `copilot/.github/standards/merge-commit-discipline.instructions.md` for all commit hygiene rules.
+
 For each changed repo:
 
 ```bash
