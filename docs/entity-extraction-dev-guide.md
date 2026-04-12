@@ -167,6 +167,61 @@ as a person):
 
 ---
 
+## Local Environment Setup
+
+The `entity-qa test module` command bypasses confidence gates so you see raw module output.
+The `test orchestrator` command applies the full merge pipeline including gates.
+
+All modules must be explicitly wired with their dependencies to work in the CLI. The
+`_build_extraction_deps()` helper in `core/src/i4g/cli/entity_qa/__init__.py` handles this
+automatically based on which modules are requested and what's configured in settings.
+
+### Enabling modules locally
+
+The default local config enables three modules (`core/config/settings.local.toml`):
+
+```toml
+[extraction]
+enabled_modules = ["regex", "llm", "heuristic"]
+```
+
+### Module-specific setup
+
+| Module      | Dependency      | Local requirement                              |
+| ----------- | --------------- | ---------------------------------------------- |
+| `regex`     | None            | Works out of the box                           |
+| `heuristic` | None            | Works out of the box                           |
+| `llm`       | `llm_client`    | Ollama running locally (`provider = "ollama"`) |
+| `ml_ner`    | `ml_predict_fn` | Deployed ML endpoint (dev/prod only)           |
+
+#### LLM module
+
+Requires Ollama with a model pulled (e.g., `ollama pull llama3.1`). Settings:
+
+```toml
+[llm]
+chat_model = "llama3.1"
+provider = "ollama"
+```
+
+The `ml_ner` module uses a fine-tuned BERT model served via the ML platform. It runs
+automatically in dev/prod where the ML serving endpoint is deployed. It is not included in
+the default local config — if `platform_base_url` is empty or unreachable, the module is
+skipped gracefully.
+
+### Testing
+
+```bash
+# Single module (no confidence gating — raw output)
+conda run -n i4g i4g entity-qa test module heuristic
+conda run -n i4g i4g entity-qa test module llm
+
+# Full orchestrator (applies merge + confidence gates)
+conda run -n i4g i4g entity-qa test orchestrator
+```
+
+---
+
 ## Quick Reference
 
 | Task                        | Command                                                                     |
