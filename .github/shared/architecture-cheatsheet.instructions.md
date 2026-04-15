@@ -152,7 +152,51 @@ data/evidence/{case_id}/
 
 ---
 
-## 4. SSI ↔ Core Integration
+## 4. LLM Auth (Gemini API)
+
+### Auth modes (google-genai SDK)
+
+Both Core and SSI use the `google-genai` SDK to call Gemini models. Two auth modes exist:
+
+| Mode            | Setting                     | SDK call                                     | Billing target                        |
+| --------------- | --------------------------- | -------------------------------------------- | ------------------------------------- |
+| **API key**     | `gemini_api_key` is set     | `genai.Client(api_key=key)`                  | GCP project that owns the API key     |
+| **Vertex AI**   | `gemini_api_key` is empty   | `genai.Client(vertexai=True, project=..., location=...)` | Vertex AI service in the GCP project  |
+
+**API-key auth is preferred in cloud.** It routes billing through the non-profit's GCP billing account and avoids AI Studio cross-billing issues.
+
+### Secret Manager wiring
+
+| Service    | Secret name       | Env var injected by Terraform         |
+| ---------- | ----------------- | ------------------------------------- |
+| Core       | `gemini-api-key`  | `I4G_LLM__GEMINI_API_KEY`            |
+| SSI        | `gemini-api-key`  | `SSI_LLM__GEMINI_API_KEY`            |
+
+### Creating a Gemini API key
+
+One key serves both Core and SSI (bound to `sa-app`, shared via Secret Manager).
+
+1. Go to [GCP Console → APIs & Services → Credentials](https://console.cloud.google.com/apis/credentials) for the target project.
+2. **Create Credentials → API key**.
+3. Enter name (e.g., `gemini-api-key-dev`).
+4. Check **Authenticate API calls through a service account** → select `sa-app@<PROJECT_ID>.iam.gserviceaccount.com`.
+5. Under **Select API restrictions**, select **Gemini API** (appears after step 4).
+6. Click **Create** and copy the key value.
+7. Store in Secret Manager:
+   ```bash
+   echo -n "<YOUR_API_KEY>" | gcloud secrets versions add gemini-api-key \
+     --data-file=- --project=<PROJECT_ID>
+   ```
+
+> Full details (rotation, troubleshooting): `core/docs/runbooks/gemini_api_key.md`.
+
+### Fallback behavior
+
+If `gemini_api_key` is empty/None, the code falls back to Vertex AI Application Default Credentials (`vertexai=True`). This still works but routes through `aiplatform.googleapis.com` instead of `generativelanguage.googleapis.com`.
+
+---
+
+## 5. SSI ↔ Core Integration
 
 ### Direct Database Writes (`ssi/src/ssi/store/scan_store.py`)
 
@@ -199,7 +243,7 @@ This ensures manual (UI) and automated (case-intake) triggers share one code pat
 
 ---
 
-## 5. Database Schema (Key Tables)
+## 6. Database Schema (Key Tables)
 
 ### Core tables (`src/i4g/store/sql.py`, METADATA)
 
@@ -233,7 +277,7 @@ site_scans ──1:N──▶ harvested_wallets
 
 ---
 
-## 6. Common Pitfalls (Do NOT Repeat)
+## 7. Common Pitfalls (Do NOT Repeat)
 
 1. **404 on artifact links** — Core returns `/cases/{id}/evidence/{doc_id}`. UI must prefix with `/api` for browser-facing `<a href>`. Without `/api`, the browser hits a nonexistent Next.js page route.
 
