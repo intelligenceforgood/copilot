@@ -151,6 +151,28 @@ This is the standard end-of-task routine. No need to run `/pre-merge-review` sep
 
 ---
 
+## Platform Hardening
+
+### hardening-sprint
+
+**When:** Starting a platform hardening work session (Phase 0–3 of the April 2026 architecture review).
+**What it does:**
+
+- Loads the architecture review and execution plan
+- Identifies the current phase and next unchecked task
+- **Checks model routing** — warns if the next task is flagged for Opus 4.7 (tasks 1.4, 3.6)
+- Loads relevant source files and architecture context for the task
+- Presents the work plan with acceptance criteria and dependencies
+- Executes the task using the `work-on-task` pattern
+- Checks off the task and updates the progress tracker
+
+**Files referenced:**
+
+- `planning/tasks/platform-review-2026-04-17.md` (review + execution guidance)
+- `planning/tasks/platform-hardening-execution.md` (execution plan with checkboxes)
+
+---
+
 ## Adding New Routines
 
 See [customization-guide.md](customization-guide.md) for how to create new routines.
