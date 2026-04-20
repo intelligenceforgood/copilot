@@ -1,11 +1,11 @@
 ---
 agent: agent
-description: "Break a feature or task into actionable steps and start working"
+description: "[Planner] Break a feature or task into actionable steps"
 ---
 
 # Plan Work
 
-Take a feature request, task description, or user story and break it into implementable steps.
+**Role: Planner.** Take a feature request, task description, or user story and break it into implementable steps. This routine produces a plan; it does not implement. When the plan is ready, the user will either continue here (for small tasks) or run `/handoff` to produce a manifest for an Executor to pick up.
 
 ## Steps
 
@@ -30,4 +30,4 @@ Take a feature request, task description, or user story and break it into implem
 
 6. **Track with todos.** Create a todo list to track progress through the steps.
 
-7. **Start working.** Begin the first step, or ask the user which step to start with.
+7. **Decide the handoff.** If the task is trivial (single file, single repo, no migrations/env vars/API changes), ask the user whether to implement inline. Otherwise recommend running `/handoff` next to produce a Task Manifest for the Executor.

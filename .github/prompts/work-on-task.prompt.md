@@ -1,11 +1,13 @@
 ---
 agent: agent
-description: "Implement a specific task — code, test, document"
+description: "[Either] Implement a specific task — code, test, document"
 ---
 
 # Work on Task
 
 Execute a single implementation task with proper testing and documentation.
+
+> **If a Task Manifest exists** (under `planning/handoffs/` or referenced by the user), prefer `/execute-manifest` instead — it has stricter scope discipline for Executor-model runs. Use `/work-on-task` for small tasks the Planner chose not to manifest, or when Planner and Executor are the same model.
 
 ## Steps
 

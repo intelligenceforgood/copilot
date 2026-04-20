@@ -48,14 +48,14 @@ The system is designed around three principles:
 
 ### This repo (`copilot/`)
 
-| Path                              | What it contains                                                            |
-| --------------------------------- | --------------------------------------------------------------------------- |
-| `.github/copilot-instructions.md` | Workspace-level instructions loaded in every Copilot conversation           |
-| `.github/prompts/`                | 10 routine prompt files — invokable from the chat prompt picker             |
-| `.github/standards/`              | 4 auto-loaded standards files (Python, TypeScript/React, Terraform, config) |
-| `.github/shared/`                 | 3 shared reference docs (architecture, general coding, pre-merge checklist) |
-| `.github/repo-templates/`         | Template for creating a new repo's `copilot-instructions.md`                |
-| `docs/`                           | Human-readable guides (this file and its siblings)                          |
+| Path                              | What it contains                                                                                |
+| --------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `.github/copilot-instructions.md` | Workspace-level instructions loaded in every Copilot conversation                               |
+| `.github/prompts/`                | 16 routine prompt files — invokable from the chat prompt picker                                 |
+| `.github/standards/`              | 9 auto-loaded standards files (Python, TypeScript/React, Terraform, config, etc.)               |
+| `.github/shared/`                 | 5 shared reference docs (architecture, general coding, pre-merge, handoff, docs) + TDD template |
+| `.github/repo-templates/`         | Template for creating a new repo's `copilot-instructions.md`                                    |
+| `docs/`                           | Human-readable guides (this file and its siblings)                                              |
 
 ### Per-product repos (`core/`, `ui/`, `ssi/`, `infra/`, etc.)
 
@@ -72,22 +72,30 @@ Everything else (shared standards, routines, platform architecture) lives in `co
 
 ## Available Routines
 
-All 10 routines are described in [routine-catalog.md](routine-catalog.md). Quick reference:
+All 16 routines are described in [routine-catalog.md](routine-catalog.md). Routines are tagged by role — **[Planner]** for deep-thinking models (e.g. Opus 4.7), **[Executor]** for faithful implementation models (e.g. Sonnet 4.6), **[Either]** for any model.
 
-| Routine               | When                                  |
-| --------------------- | ------------------------------------- |
-| `rehydrate-session`   | Start of every session                |
-| `plan-work`           | Before starting a feature/task        |
-| `work-on-task`        | Implementing code                     |
-| `fix-bug`             | Diagnosing a bug                      |
-| `check-log`           | Diagnosing a failed Cloud Run job/svc |
-| `pre-merge-review`    | Before merging                        |
-| `deploy-to-dev`       | Deploying to dev environment          |
-| `manual-verification` | After deploying                       |
-| `sprint-wrapup`       | End of sprint                         |
-| `record-lesson`       | Saving a new lesson                   |
+| Routine               | Role       | When                                       |
+| --------------------- | ---------- | ------------------------------------------ |
+| `rehydrate-session`   | [Either]   | Start of every session                     |
+| `plan-work`           | [Planner]  | Before starting a feature/task             |
+| `handoff`             | [Planner]  | Convert a plan into a Task Manifest        |
+| `execute-manifest`    | [Executor] | Implement a pre-written Task Manifest      |
+| `clarify`             | [Executor] | Blocked mid-execution — bounce to Planner  |
+| `verify-handoff`      | [Planner]  | Audit an Executor run against its manifest |
+| `work-on-task`        | [Either]   | Small tasks without a manifest             |
+| `fix-bug`             | [Either]   | Diagnosing a bug                           |
+| `check-log`           | [Either]   | Diagnosing a failed Cloud Run job/svc      |
+| `pre-merge-review`    | [Either]   | Review changes without committing          |
+| `merge`               | [Either]   | Review + commit + push all changed repos   |
+| `deploy-to-dev`       | [Either]   | Deploying to dev environment               |
+| `manual-verification` | [Either]   | After deploying                            |
+| `sprint-wrapup`       | [Planner]  | End of sprint                              |
+| `record-lesson`       | [Either]   | Saving a new lesson                        |
+| `hardening-sprint`    | [Planner]  | Platform hardening work sessions           |
 
 **How to invoke:** Open Copilot Chat → click the **`+` (attachment) icon** in the chat input → select **"Prompt..."** → pick the routine name.
+
+**Split-model flow:** `/plan-work` → `/handoff` (Planner) → switch model → `/execute-manifest` (Executor) → switch model → `/verify-handoff` (Planner). See [routine-catalog.md](routine-catalog.md#split-model-workflow-plannerexecutor) for details.
 
 ---
 

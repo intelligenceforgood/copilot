@@ -5,6 +5,7 @@ This repo contains the shared Copilot intelligence for the I4G Platform workspac
 ## Purpose
 
 This repo provides:
+
 - **Routines** (`.github/prompts/`) — step-by-step workflow templates for daily development
 - **Standards** (`.github/standards/`) — coding conventions auto-loaded by file type
 - **Shared instructions** (`.github/shared/`) — platform-wide reference documents
@@ -23,3 +24,16 @@ Each product repo (`core/`, `ui/`, `ssi/`, `infra/`) has its own minimal `copilo
 - **Shared instructions** are reference docs that other instructions cross-reference
 - **Keep it DRY** — if the same guidance appears in 2+ product repos, move it here
 - After adding or changing a routine, update `docs/routine-catalog.md`
+
+## Split-Model Workflow (Planner/Executor)
+
+Daily work is split across two roles to stay within Copilot quota:
+
+- **Planner** (deep model, e.g. Claude Opus 4.7) — architecture, design, task breakdown, manifest authoring, post-execution verification.
+- **Executor** (cheap model, e.g. Claude Sonnet 4.6 or GPT‑5.4) — faithful implementation of a pre-written Task Manifest.
+
+The handoff artifact is a **Task Manifest** defined in `.github/shared/handoff-manifest.instructions.md`. Manifests use Markdown with XML-tagged authoritative sections (`<contract>`, `<files>`, `<do_not>`, `<verification>`) and live in `planning/handoffs/`.
+
+Flow: `/plan-work` → `/handoff` (Planner) → switch model → `/execute-manifest` (Executor, with `/clarify` as escape hatch) → switch model → `/verify-handoff` (Planner).
+
+Every routine in `.github/prompts/` is tagged `[Planner]`, `[Executor]`, or `[Either]` in its description and in `docs/routine-catalog.md`.
