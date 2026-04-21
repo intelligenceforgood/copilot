@@ -30,4 +30,7 @@ description: "[Planner] Break a feature or task into actionable steps"
 
 6. **Track with todos.** Create a todo list to track progress through the steps.
 
-7. **Decide the handoff.** If the task is trivial (single file, single repo, no migrations/env vars/API changes), ask the user whether to implement inline. Otherwise recommend running `/handoff` next to produce a Task Manifest for the Executor.
+7. **Decide the handoff.** Apply the skip-threshold heuristic:
+   - **Skip `/handoff`, implement inline** if ANY of these hold: estimated < 8 Executor turns, < 3 files touched, single repo with no migrations/env vars/API changes, or throwaway/exploratory work. The Planner-overhead tax (roughly 2× the Planner cost for handoff + verify) only pays back on longer work.
+   - **Use `/handoff`** for multi-file, multi-repo, or risky work where scope discipline matters more than speed.
+   - **Batch sprints into one manifest** when possible. Don't produce one manifest per sprint when two or three sprints share a coherent slice of work — the Planner cost is mostly fixed per handoff session, so one larger manifest is far cheaper than N small ones.

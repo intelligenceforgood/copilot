@@ -7,6 +7,8 @@ description: "[Planner] Verify the Executor's implementation against the origina
 
 After an Executor finishes a Task Manifest, run this routine (as the Planner) to confirm intent was preserved and capture lessons.
 
+> **Start a fresh chat for this routine.** Verify only needs the manifest file and `git diff` — not the Executor's full implementation transcript. A fresh session can save tens of thousands of input tokens on the Planner model.
+
 ## Steps
 
 1. **Gather inputs.**

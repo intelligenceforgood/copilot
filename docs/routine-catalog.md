@@ -273,6 +273,49 @@ Role labels, not specific models. Today's recommended mapping:
 
 ---
 
+## Cost Economics (read before adopting the split-model workflow)
+
+The split-model workflow is not automatically cheaper. It wins in specific regimes and loses in others. Calibrate accordingly.
+
+### What actually drives cost
+
+1. **Iteration count, not routine count.** A premium request = one user turn. A sprint's implementation is 15–40 turns of read → edit → run tests → fix. That iteration count dominates — not the number of routines you invoke.
+2. **Session length.** Every turn re-sends the full conversation history as input tokens. Turn 50 costs roughly 50× the input of turn 1. Under token-based billing this is the single largest lever.
+3. **Auto-loaded instructions.** Every `.github/copilot-instructions.md` and auto-loaded `*.instructions.md` is re-sent on every turn. Keep them lean.
+4. **Opus reads are 7.5× everything.** When Opus reads a large file, you pay 7.5× input cost. Prefer having the Executor gather context and summarize up to the Planner, not the other way around.
+
+### When split-model wins
+
+- Multi-file, multi-repo work with 15+ implementation turns.
+- Batched manifests covering several sprints at once (Planner cost is mostly fixed per handoff).
+- Work where a scope slip or silent refactor would be expensive to untangle later.
+
+### When split-model LOSES (just use Planner-inline)
+
+- Tasks under ~8 Executor turns, < 3 files, single repo, no migrations/env/API changes.
+- Exploratory or throwaway work where the plan itself will change mid-flight.
+- Situations where you expect 3+ `/clarify` round-trips — each clarify is a Planner turn at 7.5×.
+
+### Cost-control rituals
+
+- **Start a fresh chat at handoff boundaries.** Executor doesn't need Planner's thinking-out-loud history. `/verify-handoff` only needs the manifest + `git diff`.
+- **Batch sprints into one manifest** when they share files and verification.
+- **Trim `copilot-instructions.md` files** — audit for load-bearing content only; every token is re-sent on every turn across every workspace folder.
+- **Prefer parallel tool calls** to reduce round-trips (already in the general instructions).
+- **Under token billing, consider BYOK for the Executor role** (your own Anthropic/OpenAI key) — this is a contingency lever if Pro+ runs tight.
+
+### Rough per-sprint cost, mobile-prototype scale (~6k lines output, ~25 implementation turns)
+
+| Path                                             | Estimated premium requests |
+| ------------------------------------------------ | -------------------------- |
+| Pure Opus 4.7 end-to-end                         | ~150–300                   |
+| Split, typical manifest                          | ~60–95                     |
+| Split, tight manifest + batched + fresh sessions | ~40–50                     |
+
+A 5-sprint project under pure Opus can exhaust a 1,500/month quota; under a disciplined split flow it lands around 200–450.
+
+---
+
 ## Adding New Routines
 
 See [customization-guide.md](customization-guide.md) for how to create new routines.
