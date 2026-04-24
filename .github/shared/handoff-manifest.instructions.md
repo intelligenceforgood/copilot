@@ -14,6 +14,29 @@ This document defines the **Task Manifest** format used when a Planner hands wor
 
 Small, single-file, single-repo edits can skip the manifest and run `/work-on-task` directly.
 
+## Scope cap: one phase per manifest
+
+**A manifest must fit in a single Executor session and end in a single commit per touched repo.** If the work naturally decomposes into phases (A, B, C…), issue **one manifest per phase** and chain them via `/verify-handoff` between phases. Do not bundle multiple phases into one artifact.
+
+Heuristics for splitting:
+
+- **> ~8 Executor turns estimated** → split.
+- **> 1 repo requires an independently runnable verification block** → split.
+- **> 1 "commit after this step" checkpoint** in the step-by-step → split.
+- **Files-to-create list > ~8 items** → split.
+
+Violating this cap is the #1 cause of "Executor started but never committed and never ran verification" failures (see `/memories/repo/workflow-patterns.md`).
+
+## Commit + verify discipline
+
+Every manifest MUST include, as the final step-by-step entry:
+
+1. Run every command in `<verification>` and paste the exit code + last ~20 lines of output into the execution report.
+2. `git add -A` and commit in each touched repo with a message referencing the manifest filename.
+3. Stop. Do not begin any adjacent work.
+
+An Executor session that ends with uncommitted files or unrun verification commands is a **failed** handoff regardless of how much code was written.
+
 ## File location
 
 - `planning/handoffs/<YYYY-MM-DD>-<slug>.manifest.md` (one file per handoff), OR
@@ -111,4 +134,11 @@ Run `/clarify` — produce a short structured question and stop. Do not guess.
 2. **Use `<do_not>` liberally** to prevent drift — models are more obedient about explicit negatives than implicit scope.
 3. **Link, don't repeat** — reference `architecture-cheatsheet.instructions.md` and `general-coding.instructions.md` by path; do not inline their content.
 4. **Version the manifest** if you revise it mid-execution. Bump `Manifest version` and tell the Executor to restart from the affected step.
+5. **One phase per manifest.** If the work needs phase checkpoints, it needs multiple manifests. See "Scope cap" above.
+6. **Hoist shared primitives first.** If a pattern (e.g., `ProviderGate`, `SkippedResult`, a shared client base) will be reused by ≥2 modules in this or a future manifest, create its home file FIRST in the step order — do not let the Executor inline it into the first consumer.
+7. **Default `<do_not>` additions for every manifest:**
+   - "Do not delete or move files outside this manifest's `<files>` list, including prior sprint manifests."
+   - "Do not re-save sections of a settings/config file you are not extending. Verify with `git diff -w` that untouched blocks show no whitespace-only diffs."
+   - "Do not leave uncommitted files at end of session. If verification fails, commit a WIP with an explicit `[WIP]` prefix and stop for `/clarify`."
+
 ```
