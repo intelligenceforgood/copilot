@@ -49,7 +49,7 @@ logical row, the rule is wrong and must be fixed before merge.
 
 | Source | `record_id` format |
 | --- | --- |
-| `phishdestroy.destroylist` | `<path>#L<line>` (e.g. `domains.txt#L412`) |
+| `phishdestroy.destroylist` | `sha256(normalized_indicator)` (hex) when sourced from `DestroyScammers/data/data.json`; `<path>#L<line>` when sourced from the standalone repo (not currently checked out). |
 | `phishdestroy.archive.iocs` | `<team>/iocs.json#<jsonpointer>` (RFC 6901) |
 | `phishdestroy.archive.chat` | `<team>/chat/<filename>#<message_index>` |
 | `phishdestroy.archive.damage` | `<team>/successful_thefts/<filename>#<jsonpointer>` |
