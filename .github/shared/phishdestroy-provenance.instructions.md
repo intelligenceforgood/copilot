@@ -53,6 +53,7 @@ logical row, the rule is wrong and must be fixed before merge.
 | `phishdestroy.archive.iocs` | `<team>/iocs.json#<jsonpointer>` (RFC 6901) |
 | `phishdestroy.archive.chat` | `<team>/chat/<filename>#<message_index>` |
 | `phishdestroy.archive.damage` | `<team>/successful_thefts/<filename>#<jsonpointer>` |
+| `phishdestroy.archive.financial_damage` | `<team>/successful_thefts/result.json#<message_id>` |
 | `phishdestroy.actors` | `data.json#/<actor_key>` |
 | `phishdestroy.registrants` | `registrants.json#/<pivot_type>/<pivot_value>` |
 | `blocklist.<source>` | `sha256(normalized_indicator \| source)` (hex) |
@@ -68,6 +69,7 @@ phishdestroy.destroylist
 phishdestroy.archive.iocs
 phishdestroy.archive.chat
 phishdestroy.archive.damage
+phishdestroy.archive.financial_damage
 phishdestroy.archive.infrastructure
 phishdestroy.archive.brands
 phishdestroy.actors
